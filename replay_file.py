@@ -82,6 +82,41 @@ class replay_file(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
+            1024, #size
+            window.WIN_BLACKMAN_hARRIS, #wintype
+            434.3, #fc
+            samp_rate, #bw
+            "", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_waterfall_sink_x_0.set_update_time(0.10)
+        self.qtgui_waterfall_sink_x_0.enable_grid(False)
+        self.qtgui_waterfall_sink_x_0.enable_axis_labels(True)
+
+
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        colors = [0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_waterfall_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_waterfall_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_waterfall_sink_x_0.set_color_map(i, colors[i])
+            self.qtgui_waterfall_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self.qtgui_waterfall_sink_x_0.set_intensity_range(-140, 10)
+
+        self._qtgui_waterfall_sink_x_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0.qwidget(), Qt.QWidget)
+
+        self.top_layout.addWidget(self._qtgui_waterfall_sink_x_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -89,7 +124,7 @@ class replay_file(gr.top_block, Qt.QWidget):
             1, #number of inputs
             None # parent
         )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_update_time(0.01)
         self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
 
         self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
@@ -182,8 +217,8 @@ class replay_file(gr.top_block, Qt.QWidget):
         self.osmosdr_sink_1.set_sample_rate(samp_rate)
         self.osmosdr_sink_1.set_center_freq(434.3e6, 0)
         self.osmosdr_sink_1.set_freq_corr(0, 0)
-        self.osmosdr_sink_1.set_gain(10, 0)
-        self.osmosdr_sink_1.set_if_gain(20, 0)
+        self.osmosdr_sink_1.set_gain(20, 0)
+        self.osmosdr_sink_1.set_if_gain(47, 0)
         self.osmosdr_sink_1.set_bb_gain(20, 0)
         self.osmosdr_sink_1.set_antenna('', 0)
         self.osmosdr_sink_1.set_bandwidth(0, 0)
@@ -197,6 +232,7 @@ class replay_file(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_file_source_0, 0), (self.osmosdr_sink_1, 0))
         self.connect((self.blocks_file_source_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
 
 
     def closeEvent(self, event):
@@ -215,6 +251,7 @@ class replay_file(gr.top_block, Qt.QWidget):
         self.osmosdr_sink_1.set_sample_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0_0.set_frequency_range(434.3e6, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.qtgui_waterfall_sink_x_0.set_frequency_range(434.3, self.samp_rate)
 
 
 
