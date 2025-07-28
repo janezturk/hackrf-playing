@@ -26,6 +26,7 @@ from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import blocks
+from gnuradio import filter
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
@@ -81,6 +82,16 @@ class lorawan_freq_analyse(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.rational_resampler_xxx_0_0 = filter.rational_resampler_fff(
+                interpolation=1,
+                decimation=200,
+                taps=[],
+                fractional_bw=0)
+        self.rational_resampler_xxx_0 = filter.rational_resampler_fff(
+                interpolation=1,
+                decimation=100,
+                taps=[],
+                fractional_bw=0)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             10000, #size
             samp_rate, #samp_rate
@@ -182,10 +193,12 @@ class lorawan_freq_analyse(gr.top_block, Qt.QWidget):
         self.osmosdr_source_0_0.set_iq_balance_mode(0, 0)
         self.osmosdr_source_0_0.set_gain_mode(False, 0)
         self.osmosdr_source_0_0.set_gain(0, 0)
-        self.osmosdr_source_0_0.set_if_gain(20, 0)
-        self.osmosdr_source_0_0.set_bb_gain(20, 0)
+        self.osmosdr_source_0_0.set_if_gain(0, 0)
+        self.osmosdr_source_0_0.set_bb_gain(0, 0)
         self.osmosdr_source_0_0.set_antenna('', 0)
         self.osmosdr_source_0_0.set_bandwidth(0, 0)
+        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_float*1, '/tmp/lwan_mag_1ks', False)
+        self.blocks_file_sink_0_0.set_unbuffered(False)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/tmp/lwan', False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
@@ -195,9 +208,12 @@ class lorawan_freq_analyse(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_complex_to_mag_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.osmosdr_source_0_0, 0), (self.blocks_complex_to_mag_0, 0))
         self.connect((self.osmosdr_source_0_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.osmosdr_source_0_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.rational_resampler_xxx_0_0, 0))
+        self.connect((self.rational_resampler_xxx_0_0, 0), (self.blocks_file_sink_0_0, 0))
 
 
     def closeEvent(self, event):

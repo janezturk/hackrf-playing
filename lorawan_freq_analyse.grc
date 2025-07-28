@@ -76,7 +76,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 484.0]
+    coordinate: [688, 444.0]
+    rotation: 0
+    state: true
+- name: blocks_file_sink_0_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /tmp/lwan_mag_1ks
+    type: float
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1448, 428.0]
     rotation: 0
     state: true
 - name: osmosdr_source_0_0
@@ -117,7 +135,7 @@ blocks:
     ant8: ''
     ant9: ''
     args: '""'
-    bb_gain0: '20'
+    bb_gain0: '0'
     bb_gain1: '20'
     bb_gain10: '20'
     bb_gain11: '20'
@@ -350,7 +368,7 @@ blocks:
     gain_mode7: 'False'
     gain_mode8: 'False'
     gain_mode9: 'False'
-    if_gain0: '20'
+    if_gain0: '0'
     if_gain1: '20'
     if_gain10: '20'
     if_gain11: '20'
@@ -514,7 +532,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 356.0]
+    coordinate: [768, 236.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
@@ -611,15 +629,58 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 580.0]
+    coordinate: [1064, 580.0]
     rotation: 0
     state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '100'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 420.0]
+    rotation: 0
+    state: true
+- name: rational_resampler_xxx_0_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '200'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 420.0]
+    rotation: 0
+    state: true
 
 connections:
 - [blocks_complex_to_mag_0, '0', qtgui_time_sink_x_0, '0']
+- [blocks_complex_to_mag_0, '0', rational_resampler_xxx_0, '0']
 - [osmosdr_source_0_0, '0', blocks_complex_to_mag_0, '0']
 - [osmosdr_source_0_0, '0', blocks_file_sink_0, '0']
 - [osmosdr_source_0_0, '0', qtgui_freq_sink_x_0_0, '0']
+- [rational_resampler_xxx_0, '0', rational_resampler_xxx_0_0, '0']
+- [rational_resampler_xxx_0_0, '0', blocks_file_sink_0_0, '0']
 
 metadata:
   file_format: 1
