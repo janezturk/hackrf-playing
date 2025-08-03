@@ -272,7 +272,7 @@ blocks:
     dc_offset_mode7: '0'
     dc_offset_mode8: '0'
     dc_offset_mode9: '0'
-    freq0: 868.5e6
+    freq0: 869.5e6
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -485,7 +485,7 @@ blocks:
     color9: '"dark green"'
     comment: ''
     ctrlpanel: 'True'
-    fc: 868.5e6
+    fc: 869.5e6
     fftsize: '8192'
     freqhalf: 'True'
     grid: 'False'

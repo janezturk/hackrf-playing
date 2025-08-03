@@ -143,7 +143,7 @@ class lorawan_freq_analyse(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_0_0 = qtgui.freq_sink_c(
             8192, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
-            868.5e6, #fc
+            869.5e6, #fc
             samp_rate, #bw
             "", #name
             1,
@@ -187,7 +187,7 @@ class lorawan_freq_analyse(gr.top_block, Qt.QWidget):
         )
         self.osmosdr_source_0_0.set_time_unknown_pps(osmosdr.time_spec_t())
         self.osmosdr_source_0_0.set_sample_rate(samp_rate)
-        self.osmosdr_source_0_0.set_center_freq(868.5e6, 0)
+        self.osmosdr_source_0_0.set_center_freq(869.5e6, 0)
         self.osmosdr_source_0_0.set_freq_corr(0, 0)
         self.osmosdr_source_0_0.set_dc_offset_mode(0, 0)
         self.osmosdr_source_0_0.set_iq_balance_mode(0, 0)
@@ -230,7 +230,7 @@ class lorawan_freq_analyse(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.osmosdr_source_0_0.set_sample_rate(self.samp_rate)
-        self.qtgui_freq_sink_x_0_0.set_frequency_range(868.5e6, self.samp_rate)
+        self.qtgui_freq_sink_x_0_0.set_frequency_range(869.5e6, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
 
